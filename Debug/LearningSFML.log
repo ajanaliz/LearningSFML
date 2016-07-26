@@ -1,10 +1,17 @@
-﻿Build started 7/26/2016 5:55:49 AM.
+﻿Build started 7/27/2016 2:53:39 AM.
      1>Project "C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\LearningSFML\LearningSFML.vcxproj" on node 2 (Build target(s)).
-     1>Link:
+     1>ClCompile:
+         D:\Visual Studio\VS2013 installed version\VC\bin\CL.exe /c /I"C:\Users\Ali J\Downloads\Compressed\SFML-2.3.2-sources\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\users\ali j\documents\visual studio 2013\projects\learningsfml\learningsfml\main.cpp(83): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ali j\documents\visual studio 2013\projects\learningsfml\learningsfml\main.cpp(84): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ali j\documents\visual studio 2013\projects\learningsfml\learningsfml\main.cpp(85): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\ali j\documents\visual studio 2013\projects\learningsfml\learningsfml\main.cpp(86): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+       Link:
          D:\Visual Studio\VS2013 installed version\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\Debug\LearningSFML.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Ali J\Downloads\Compressed\SFML-2.3.2-sources\SFML-2.3.2\build\lib\Debug" "sfml-main-d.lib" "sfml-window-d.lib" "sfml-system-d.lib" "sfml-audio-d.lib" "sfml-graphics-d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\Debug\LearningSFML.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\Debug\LearningSFML.lib" /MACHINE:X86 Debug\main.obj
          LearningSFML.vcxproj -> C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\Debug\LearningSFML.exe
      1>Done Building Project "C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\LearningSFML\LearningSFML.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.49
+Time Elapsed 00:00:00.89
