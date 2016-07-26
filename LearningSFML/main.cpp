@@ -95,7 +95,7 @@ int main()
 		window.draw(rect);
 		window.display();
 	}
-	delete rectPosition;
+	delete rectPosition, circlePosition;
 	window.close();
 	return 0;
 }

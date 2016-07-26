@@ -1,4 +1,4 @@
-﻿Build started 7/27/2016 2:53:39 AM.
+﻿Build started 7/27/2016 3:06:53 AM.
      1>Project "C:\Users\Ali J\documents\visual studio 2013\Projects\LearningSFML\LearningSFML\LearningSFML.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          D:\Visual Studio\VS2013 installed version\VC\bin\CL.exe /c /I"C:\Users\Ali J\Downloads\Compressed\SFML-2.3.2-sources\SFML-2.3.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -14,4 +14,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.89
+Time Elapsed 00:00:00.72
