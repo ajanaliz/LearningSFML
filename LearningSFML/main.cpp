@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 int main()
 {
@@ -21,15 +22,59 @@ int main()
 	sf::Vector2f* circlePosition = new sf::Vector2f(0, 0);
 	float circleRadius = 50;
 
+	//images
+	sf::Texture image;
+	if (image.loadFromFile("res/images/image1.png") == 0)
+	{
+		//failed to load image -->close program
+		return 1;
+	}
 	//Render shapes
 	sf::RectangleShape rect;
 	rect.setSize(sf::Vector2f(100, 50));
 	rect.setPosition(sf::Vector2f(400, 300));
-	rect.setFillColor(sf::Color::Green);
+	rect.setFillColor(sf::Color::White);
+	rect.setTexture(&image);
 	sf::CircleShape circle;
 	circle.setRadius(circleRadius);
 	circle.setPosition(*circlePosition);
 	circle.setFillColor(sf::Color::Magenta);
+
+	//fonts
+	sf::Font myFont;
+	if (myFont.loadFromFile("res/fonts/arial.ttf") == 0)
+	{
+		return 1;
+	}
+	
+	//text
+	sf::Text title;
+	title.setFont(myFont);
+	title.setCharacterSize(16);
+	title.setString("Testing - Ali J");
+	title.setPosition(sf::Vector2f(50, 50));
+	title.setColor(sf::Color::Cyan);
+
+	//sound
+	sf::SoundBuffer mySoundBuffer;
+	if (mySoundBuffer.loadFromFile("res/sounds/Explosion.wav") == 0)
+	{
+		return 1;
+	}
+	sf::Sound explosion;
+	explosion.setBuffer(mySoundBuffer);
+//	explosion.setLoop(true);
+	explosion.setVolume(50);
+	explosion.play();
+
+	//music
+	sf::Music music;
+	if (music.openFromFile("res/sounds/mainmenu.wav") == 0)
+	{
+		return 1;
+	}
+	music.setLoop(true);
+	music.play();
 
 	while (running)
 	{
@@ -93,6 +138,7 @@ int main()
 		window.clear();
 		window.draw(circle);
 		window.draw(rect);
+		window.draw(title);
 		window.display();
 	}
 	delete rectPosition, circlePosition;
