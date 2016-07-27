@@ -1,45 +1,24 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <SFML/Audio.hpp>
+#include <sstream>
+#define WIDTH 800 
+#define HEIGHT 600
+#define PADWIDTH 50 
+#define PADHEIGHT 100
+#define BALLWIDTH 50 
+#define BALLHEIGHT 50
+
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Game");
+	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "SFML Game");
 	bool running = true;
 	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
 	sf::Event event;
-	//states for buttons/events
-	bool aPressed = false;
-	bool aReleased = false;
-	bool space = false;
-	bool leftClick = false;
+
 	
-	//Variables
-	int clicks = 0;
-	int mouseX = 0, mouseY = 0;
-	sf::Vector2f* rectPosition = new sf::Vector2f(0, 0);
-	sf::Vector2f* circlePosition = new sf::Vector2f(0, 0);
-	float circleRadius = 50;
-
-	//images
-	sf::Texture image;
-	if (image.loadFromFile("res/images/image1.png") == 0)
-	{
-		//failed to load image -->close program
-		return 1;
-	}
-	//Render shapes
-	sf::RectangleShape rect;
-	rect.setSize(sf::Vector2f(100, 50));
-	rect.setPosition(sf::Vector2f(400, 300));
-	rect.setFillColor(sf::Color::White);
-	rect.setTexture(&image);
-	sf::CircleShape circle;
-	circle.setRadius(circleRadius);
-	circle.setPosition(*circlePosition);
-	circle.setFillColor(sf::Color::Magenta);
-
 	//fonts
 	sf::Font myFont;
 	if (myFont.loadFromFile("res/fonts/arial.ttf") == 0)
@@ -48,12 +27,51 @@ int main()
 	}
 	
 	//text
-	sf::Text title;
-	title.setFont(myFont);
-	title.setCharacterSize(16);
-	title.setString("Testing - Ali J");
-	title.setPosition(sf::Vector2f(50, 50));
-	title.setColor(sf::Color::Cyan);
+	sf::Text score;
+	score.setFont(myFont);
+	score.setCharacterSize(30);
+	score.setString("0 : 0");
+	score.setPosition(sf::Vector2f(380, 10));
+	score.setColor(sf::Color::Red);
+
+	//images
+	sf::Texture background;
+	sf::Texture pad;
+	sf::Texture ball;
+	if (background.loadFromFile("res/images/background.png") == false
+		|| ball.loadFromFile("res/images/ball.png") == false
+		|| pad.loadFromFile("res/images/rect.png") == false)
+	{
+		return -1;
+	}
+	//states
+	bool up = false, down = false;
+
+	//variables
+	int pad1VelY = 0;
+	int ballVelX = -3;
+	int ballVelY = -3;
+	int pad2VelY = 0;
+	int pad1Score = 0, pad2Score = 0;
+
+	//shapes
+	sf::RectangleShape backgroundRect;
+	backgroundRect.setSize(sf::Vector2f(WIDTH,HEIGHT));
+	backgroundRect.setPosition(sf::Vector2f(0, 0));
+	backgroundRect.setTexture(&background);
+	sf::RectangleShape pad1;
+	sf::RectangleShape pad2;
+	pad1.setSize(sf::Vector2f(PADWIDTH, PADHEIGHT));
+	pad1.setPosition(sf::Vector2f(50, 200));
+	pad1.setTexture(&pad);
+	pad2.setSize(sf::Vector2f(PADWIDTH, PADHEIGHT));
+	pad2.setPosition(sf::Vector2f(700, 200));
+	pad2.setTexture(&pad);
+	sf::RectangleShape ballRect;
+	ballRect.setSize(sf::Vector2f(BALLWIDTH, BALLHEIGHT));
+	ballRect.setPosition(sf::Vector2f(400, 225));
+	ballRect.setTexture(&ball);
+
 
 	//sound
 	sf::SoundBuffer mySoundBuffer;
@@ -63,9 +81,7 @@ int main()
 	}
 	sf::Sound explosion;
 	explosion.setBuffer(mySoundBuffer);
-//	explosion.setLoop(true);
 	explosion.setVolume(50);
-	explosion.play();
 
 	//music
 	sf::Music music;
@@ -74,7 +90,6 @@ int main()
 		return 1;
 	}
 	music.setLoop(true);
-	music.play();
 
 	while (running)
 	{
@@ -83,65 +98,84 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				running = false;
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::A)
-				aPressed = true;
-			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::A)
-				aReleased = true;
-			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space)
-				space = true;
-			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space)
-				space = false;
-			if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
-				leftClick = true;
-			if (event.type == sf::Event::MouseMoved)
-			{
-				mouseX = event.mouseMove.x;
-				mouseY = event.mouseMove.y;
-			}
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Up)
+				up = true;
+			if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Down)
+				down = true;
+			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Up)
+				up = false;
+			if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Down)
+				down = false;
 		}
 
 		//LOGIC
-		if (aPressed)
-		{
-			std::cout << "the A Key has been Pressed" << std::endl;
-			aPressed = false;
-		}
-		if (aReleased)
-		{
-			std::cout << "the A Key has been Released" << std::endl;
-			aReleased = false;
-		}
-//		if (space)
-//		{
-//			std::cout << "SPACE" << std::endl;
-//		}
-//		else
-//		{
-//			std::cout << "NOT SPACE" << std::endl;
-//		}
-		if (leftClick)
-		{
-			clicks++;
-			leftClick = false;
-			std::cout << "number of clicks so far: " << clicks << std::endl;
-			std::cout << "mouse X: " << mouseX << " mouse Y: " << mouseY << std::endl;
-			(*rectPosition).x = mouseX;
-			(*rectPosition).y = mouseY;
-			(*circlePosition).x = mouseX + 50;
-			(*circlePosition).y = mouseY + 150;
+		if (up)
+			pad1VelY = -5;
+		if (down)
+			pad1VelY = 5;
+		if ((up && down) || (!up && !down))
+			pad1VelY = 0;
+		pad1.move(0, pad1VelY);
 
+		//out of bounds check
+		if (pad1.getPosition().y < 0)
+		{
+			pad1.setPosition(50, 0);
 		}
-		rect.setPosition(*rectPosition);
-		circle.setPosition(*circlePosition);
+		else if (pad1.getPosition().y + PADHEIGHT > HEIGHT)
+		{
+			pad1.setPosition(50, HEIGHT - PADHEIGHT);
+		}
+
+		//basic A.I for Pad2
+		if (ballRect.getPosition().y < pad2.getPosition().y)
+		{
+			pad2VelY = -2;
+		}
+		else
+		{
+			pad2VelY = 2;
+		}
+		pad2.move(0, pad2VelY);
+		//ball
+		ballRect.move(ballVelX, ballVelY);
+		//out of bounds check
+		if (ballRect.getPosition().y < 0 || ballRect.getPosition().y + BALLHEIGHT > HEIGHT)
+		{
+			ballVelY *= -1;
+		}
+		//collision
+		if (ballRect.getGlobalBounds().intersects(pad1.getGlobalBounds())
+			|| ballRect.getGlobalBounds().intersects(pad2.getGlobalBounds()))
+		{
+			explosion.play();
+			ballVelX *= -1;
+		}
+		if (ballRect.getPosition().x < -50)
+		{
+			pad2Score++;
+			ballRect.setPosition(sf::Vector2f(300, 200));
+		}
+		else if (ballRect.getPosition().x > 800)
+		{
+			pad1Score++;
+			ballRect.setPosition(sf::Vector2f(300, 200));
+		}
+			
 
 		//RENDERING
 		window.clear();
-		window.draw(circle);
-		window.draw(rect);
-		window.draw(title);
+		window.draw(backgroundRect);
+		window.draw(pad1);
+		window.draw(pad2);
+		window.draw(ballRect);
+		//score
+		std::stringstream text;
+		text << pad1Score << " : " << pad2Score;
+		score.setString(text.str());
+		window.draw(score);
 		window.display();
 	}
-	delete rectPosition, circlePosition;
 	window.close();
 	return 0;
 }
